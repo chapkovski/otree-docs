@@ -18,11 +18,11 @@ WAMP
 ~~~~~~~~~~~~~~~~~
 `WAMP <http://www.wampserver.com/>`__ is web stack that includes Apache, MySQL and PHP.
 For this walkthrough we will use 32-bits version of WampServer 3.
-We will use default path for WAMP: ``C:\wamp``
+We will use default path for WAMP: ``C:\wamp``.
 Keep in mind that both installation and Wamp manager files should be executed as Administrator.
 If installation is successfull you should be able to launch Wamp manager and navigate to localhost.
 
-Install required packages with virtualenv
+Installing dependencies using a virtualenv
 ~~~~~~~~~~~~~~~~~
 
 - Install virtualenv: ``pip install virtualenv``
@@ -33,7 +33,7 @@ Install required packages with virtualenv
 - Install compiled version of ``mod_wsgi`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi>`__:
   ``pip``: ``pip install mod_wsgi-4.4.23+ap24vc9-cp27-cp27m-win32.whl``. Copy file ``venv\mod_wsgi.so`` into apache
   folder ``C:\wamp\bin\apache\apache2.4.17\modules``
-- Install compiled version of ``mysql-python`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python>`:
+- Install compiled version of ``mysql-python`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python>`__:
   ``pip install MySQL_python-1.2.5-cp27-none-win32.whl``
 
 Update Apache conf
