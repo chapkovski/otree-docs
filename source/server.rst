@@ -33,6 +33,13 @@ Installing dependencies using a virtualenv
 - Install compiled version of ``mod_wsgi`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi>`__:
   ``pip``: ``pip install mod_wsgi-4.4.23+ap24vc9-cp27-cp27m-win32.whl``. Copy file ``venv\mod_wsgi.so`` into apache
   folder ``C:\wamp\bin\apache\apache2.4.17\modules``
+
+.. note::
+
+    You should install version of ``mod_wsgi`` that is compatible with version of your ``python``.
+    Therefore choose correspondingly x86 or amd64 and Python2.* or Python 3.* 
+    when you download precompiled version of ``mod_wsgi``.
+
 - Install compiled version of ``mysql-python`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python>`__:
   ``pip install MySQL_python-1.2.5-cp27-none-win32.whl``
 
