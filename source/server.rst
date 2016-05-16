@@ -8,6 +8,96 @@ However, when you want to share your app with an audience,
 you must deploy to a web server. oTree can be deployed to a cloud service like
 Heroku, or to your own on-premises server.
 
+Apache and MySQL on Windows
+------
+
+In general windows is not recommended as a platform for deployment but there
+exists an easy solution based on WAMP Stack.
+
+WAMP
+~~~~~~~~~~~~~~~~~
+`WAMP <http://www.wampserver.com/>`__ is web stack that includes Apache, MySQL and PHP.
+For this walkthrough we will use 32-bits version of WampServer 3.
+We will use default path for WAMP: ``C:\wamp``
+Keep in mind that both installation and Wamp manager files should be executed as Administrator.
+If installation is successfull you should be able to launch Wamp manager and navigate to localhost.
+
+Install required packages with virtualenv
+~~~~~~~~~~~~~~~~~
+
+- Install virtualenv: ``pip install virtualenv``
+- Navigate to folder with your apps ``cd C:\wamp\www\oTree``
+- Create virtual environment: ``virtualenv venv``
+- Activate virtual environment: ``venv\Scripts\activate.bat``
+- Install modules required for oTree: ``pip install -r requirements_base.txt``
+- Install compiled version of ``mod_wsgi`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi>`__:
+  ``pip``: ``pip install mod_wsgi-4.4.23+ap24vc9-cp27-cp27m-win32.whl``. Copy file ``venv\mod_wsgi.so`` into apache
+  folder ``C:\wamp\bin\apache\apache2.4.17\modules``
+- Install compiled version of ``mysql-python`` module from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python>`:
+  ``pip install MySQL_python-1.2.5-cp27-none-win32.whl``
+
+Update Apache conf
+~~~~~~~~~~~~~~~~~
+
+- Add following line to ``C:\wamp\bin\apache\apache2.4.17\conf\httpd.conf`` after all ``LoadModule ...`` statements:
+
+.. code-block:: apacheconf
+
+    LoadModule wsgi_module modules/mod_wsgi.so
+
+- Add following lines to very end of file ``C:\wamp\bin\apache\apache2.4.17\conf\httpd.conf``:
+
+.. code-block:: apacheconf
+
+    Alias /static/ C:/wamp/www/oTree/_static_root/
+
+    <Directory C:/wamp/www/oTree/static>
+    Require all granted
+    </Directory>
+
+    WSGIScriptAlias / C:/wamp/www/oTree/wsgi.py
+
+    <Directory C:/wamp/www/oTree>
+    <Files wsgi.py>
+    Require all granted
+    </Files>
+    </Directory>
+
+Setup oTree
+~~~~~~~~~~~~~~~~~
+
+- create entering point script for oTree apps ``C:\wamp\www\oTree\wsgi.py``:
+
+.. code-block:: python
+
+    import os
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+
+    from django.core.wsgi import get_wsgi_application
+    from whitenoise.django import DjangoWhiteNoise
+
+    application = get_wsgi_application()
+    application = DjangoWhiteNoise(application)
+
+- create database ``otree`` through `phpMyAdmin <http://localhost/phpmyadmin>`__ (login is root and password is blank)
+- update database in ``settings.py``:
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'otree',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+
+- collect static files in one folder: ``python manage.py collectstatic``
+- reset database: ``otree resetdb``
+
 Heroku
 ------
 
