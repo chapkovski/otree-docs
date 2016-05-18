@@ -49,7 +49,9 @@ Update Apache conf
 - Add following line to ``C:\wamp\bin\apache\apache2.4.17\conf\httpd.conf`` after all ``LoadModule ...`` statements:
 
 .. code-block:: apacheconf
-
+  
+    WSGIPythonHome C:\Python27
+    WSGIPythonPath C:\wamp\www\oTree\venv\Lib\site-packages;C:\wamp\www\oTree
     LoadModule wsgi_module modules/mod_wsgi.so
 
 - Add following lines to very end of file ``C:\wamp\bin\apache\apache2.4.17\conf\httpd.conf``:
