@@ -58,19 +58,21 @@ Update Apache conf
 
 .. code-block:: apacheconf
 
-    Alias /static/ C:/wamp/www/oTree/_static_root/
-
-    <Directory C:/wamp/www/oTree/static>
-    Require all granted
-    </Directory>
-
-    WSGIScriptAlias / C:/wamp/www/oTree/wsgi.py
-
-    <Directory C:/wamp/www/oTree>
-    <Files wsgi.py>
-    Require all granted
-    </Files>
-    </Directory>
+    <VirtualHost *>
+        Alias /static/ C:/wamp/www/oTree/_static_root/
+        
+        <Directory C:/wamp/www/oTree/static>
+        Require all granted
+        </Directory>
+        
+        WSGIScriptAlias / C:/wamp/www/oTree/wsgi.py
+        
+        <Directory C:/wamp/www/oTree>
+        <Files wsgi.py>
+        Require all granted
+        </Files>
+        </Directory>
+    </VirtualHost>
 
 Setup oTree
 ~~~~~~~~~~~~~~~~~
@@ -106,6 +108,24 @@ Setup oTree
 
 - collect static files in one folder: ``python manage.py collectstatic``
 - reset database: ``otree resetdb``
+
+Set enviromental variables
+~~~~~~~~~~~~~~~~~
+
+- to prepare oTree for real session you need to update the script ``C:\wamp\www\oTree\wsgi.py``:
+
+.. code-block:: python
+
+    import os
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+    os.environ['OTREE_PRODUCTION'] = "1"
+    os.environ['OTREE_AUTH_LEVEL'] = "STUDY"
+
+    from django.core.wsgi import get_wsgi_application
+    from whitenoise.django import DjangoWhiteNoise
+
+    application = get_wsgi_application()
+    application = DjangoWhiteNoise(application)
 
 Heroku
 ------
