@@ -62,7 +62,9 @@ Update Apache conf
         Alias /static/ C:/wamp/www/oTree/_static_root/
         
         <Directory C:/wamp/www/oTree/static>
-        Require all granted
+          Order allow,deny
+          Allow from all
+          Require all granted
         </Directory>
         
         WSGIScriptAlias / C:/wamp/www/oTree/wsgi.py
