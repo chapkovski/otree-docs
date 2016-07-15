@@ -61,9 +61,7 @@ Update Apache conf
     <VirtualHost *>
         Alias /static/ C:/wamp/www/oTree/_static_root/
         
-        <Directory C:/wamp/www/oTree/static>
-          Order allow,deny
-          Allow from all
+        <Directory C:/wamp/www/oTree/_static_root>
           Require all granted
         </Directory>
         
@@ -71,7 +69,7 @@ Update Apache conf
         
         <Directory C:/wamp/www/oTree>
         <Files wsgi.py>
-        Require all granted
+          Require all granted
         </Files>
         </Directory>
     </VirtualHost>
